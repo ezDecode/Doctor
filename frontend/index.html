@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Doctor Search</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="page">
+    <header class="hero">
+      <p class="eyebrow">Trusted healthcare</p>
+      <h1>Doctor Search</h1>
+      <p class="lead">
+        Surface every specialist in your network with a single search, then
+        invite them into your care programs instantly.
+      </p>
+
+      <div class="hero-actions">
+        <button id="open" class="primary">Add Doctor</button>
+        <label class="search-field">
+          <input id="search" placeholder="Search doctors, specialties, cities..." />
+        </label>
+      </div>
+
+    </header>
+
+    <main>
+      <section class="grid" id="grid" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <div id="modal">
+    <form id="form">
+      <h2>Save doctor</h2>
+      <input type="hidden" id="id" />
+      <input id="name" placeholder="Name" required />
+      <input id="specialization" placeholder="Specialization" required />
+      <input id="age" type="number" min="0" placeholder="Age" />
+      <input id="experience" type="number" min="0" placeholder="Experience" />
+      <div class="modal-actions">
+        <button type="submit">Save</button>
+        <button type="button" id="close">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

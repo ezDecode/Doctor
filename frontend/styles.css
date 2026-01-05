@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #000000;
+  --panel: #111111;
+  --border: rgba(255, 255, 255, 0.15);
+  --accent: #ffffff;
+  --accent-soft: rgba(255, 255, 255, 0.2);
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.7);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter Tight', 'Space Grotesk', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px 48px;
+}
+
+.page {
+  width: min(1100px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.hero {
+  border: none;
+  border-radius: 0;
+  padding: 24px 0 16px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 0.75rem;
+  margin: 0;
+  color: var(--accent);
+}
+
+.lead {
+  margin-top: 8px;
+  max-width: 560px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.hero-actions {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.primary {
+  border: 1px solid var(--accent-soft);
+  background: var(--panel);
+  color: var(--text);
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.search-field {
+  flex: 1;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  min-width: 0;
+}
+
+.search-field input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  min-width: 0;
+}
+
+.search-field input:focus {
+  outline: none;
+}
+
+main {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.doc-card {
+  border-radius: 16px;
+  padding: 24px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+}
+
+.doc-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.doc-card__header h2 {
+  margin: 4px 0 0;
+  font-size: 1.4rem;
+}
+
+.eyebrow.small {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.doc-card__badge {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.doc-card__status {
+  margin: 12px 0 16px;
+  color: var(--muted);
+}
+
+.doc-card__meta {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.doc-card__meta div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.doc-card__meta dt {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.doc-card__meta dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.doc-card__actions {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 12px;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.doc-card__actions button {
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  min-width: 0;
+}
+
+.doc-card__actions button:not(.ghost) {
+  background: transparent;
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.ghost {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+input,
+select,
+button[type='submit'] {
+  font-family: inherit;
+}
+
+#modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+#modal form {
+  width: min(360px, 100%);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+#modal form h2 {
+  margin: 0;
+}
+
+input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.modal-actions button {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 0;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.modal-actions button:first-child {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text);
+  border-color: transparent;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 24px;
+  }
+}
+
