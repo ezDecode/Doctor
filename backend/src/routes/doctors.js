@@ -11,12 +11,12 @@ router.get("/", async (req, res) => {
       .from("doctors")
       .select("*")
       .or(`name.ilike.%${term}%,specialization.ilike.%${term}%`)
-      .order("id");
+      .order("name");
   } else {
     result = await db
       .from("doctors")
       .select("*")
-      .order("id");
+      .order("name");
   }
   
   if (result.error) {
@@ -27,13 +27,29 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  const { name, specialization, age, experience } = req.body;
+  
+  const doctorData = {
+    name,
+    specialization
+  };
+  
+  // Only include age and experience if provided
+  if (age !== undefined && age !== null) {
+    doctorData.age = age;
+  }
+  if (experience !== undefined && experience !== null) {
+    doctorData.experience = experience;
+  }
+  
   const result = await db
     .from("doctors")
-    .insert([req.body])
+    .insert([doctorData])
     .select()
     .single();
   
   if (result.error) {
+    console.error("Insert error:", result.error);
     return res.status(500).json(result.error);
   }
   
@@ -42,15 +58,30 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const doctorId = req.params.id;
+  const { name, specialization, age, experience } = req.body;
+  
+  const updateData = {
+    name,
+    specialization
+  };
+  
+  // Only include age and experience if provided
+  if (age !== undefined && age !== null) {
+    updateData.age = age;
+  }
+  if (experience !== undefined && experience !== null) {
+    updateData.experience = experience;
+  }
   
   const result = await db
     .from("doctors")
-    .update(req.body)
+    .update(updateData)
     .eq("id", doctorId)
     .select()
     .single();
   
   if (result.error) {
+    console.error("Update error:", result.error);
     return res.status(500).json(result.error);
   }
   
@@ -66,6 +97,7 @@ router.delete("/:id", async (req, res) => {
     .eq("id", doctorId);
   
   if (result.error) {
+    console.error("Delete error:", result.error);
     return res.status(500).json(result.error);
   }
   

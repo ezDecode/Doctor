@@ -69,7 +69,7 @@ function renderDoctors(doctors) {
 async function fetchDoctors(searchQuery) {
   let url = `${API_BASE}/doctors`;
   if (searchQuery) {
-    url += `?q=${searchQuery}`;
+    url += `?q=${encodeURIComponent(searchQuery)}`;
   }
   
   const response = await fetch(url);
@@ -94,34 +94,85 @@ window.editDoctor = async function(doctorId) {
 };
 
 window.deleteDoctor = async function(doctorId) {
-  await fetch(`${API_BASE}/doctors/${doctorId}`, {
-    method: "DELETE"
-  });
-  fetchDoctors();
+  if (!confirm("Are you sure you want to delete this doctor?")) {
+    return;
+  }
+  
+  try {
+    const response = await fetch(`${API_BASE}/doctors/${doctorId}`, {
+      method: "DELETE"
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      alert(`Error: ${errorData.message || 'Failed to delete doctor'}`);
+      return;
+    }
+    
+    alert("✓ Doctor has been deleted successfully!");
+    fetchDoctors();
+  } catch (error) {
+    console.error("Error deleting doctor:", error);
+    alert(`Error: ${error.message}`);
+  }
 };
 
 form.onsubmit = async function(e) {
   e.preventDefault();
   
   const formData = new FormData(form);
-  const payload = Object.fromEntries(formData);
+  const rawPayload = Object.fromEntries(formData);
+  
+  // Build clean payload
+  const payload = {
+    name: rawPayload.name,
+    specialization: rawPayload.specialization
+  };
+  
+  // Add optional fields with proper types
+  if (rawPayload.age && rawPayload.age.trim()) {
+    payload.age = parseInt(rawPayload.age, 10);
+  }
+  if (rawPayload.experience && rawPayload.experience.trim()) {
+    payload.experience = parseInt(rawPayload.experience, 10);
+  }
   
   let url = `${API_BASE}/doctors`;
   let method = "POST";
+  let isUpdate = false;
   
-  if (payload.id) {
-    url = `${API_BASE}/doctors/${payload.id}`;
+  if (rawPayload.id && rawPayload.id.trim()) {
+    url = `${API_BASE}/doctors/${rawPayload.id}`;
     method = "PUT";
+    isUpdate = true;
   }
   
-  await fetch(url, {
-    method: method,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
-  
-  hideModal();
-  fetchDoctors();
+  try {
+    const response = await fetch(url, {
+      method: method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      alert(`Error: ${errorData.message || 'Failed to save doctor'}`);
+      return;
+    }
+    
+    const savedDoctor = await response.json();
+    hideModal();
+    searchInput.value = "";
+    
+    // Show confirmation message
+    const action = isUpdate ? "updated" : "added";
+    alert(`✓ Doctor "${savedDoctor.name}" has been ${action} successfully!`);
+    
+    fetchDoctors();
+  } catch (error) {
+    console.error("Error saving doctor:", error);
+    alert(`Error: ${error.message}`);
+  }
 };
 
 openBtn.onclick = showModal;
